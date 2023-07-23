@@ -1,0 +1,7 @@
+__pycache__
+.*
+helm-charts/*
+terraform.tfstate
+terraform.tfstate.backup
+!.github
+!.gitignore
