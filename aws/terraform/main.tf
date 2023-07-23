@@ -26,10 +26,17 @@ output "codecommit_repo_url" {
 
 resource "aws_s3_bucket" "model_data_bucket" {
   bucket = local.s3_bucket_name
+  force_destroy = true
+}
 
-  versioning {
-    enabled = true
+resource "aws_s3_bucket_versioning" "versioning_example" {
+  bucket = aws_s3_bucket.model_data_bucket.id
+  versioning_configuration {
+    status = "Disabled"
   }
+  depends_on = [
+    aws_s3_bucket.model_data_bucket
+  ]
 }
 
 resource "aws_codebuild_project" "python_model_build" {
@@ -227,6 +234,42 @@ resource "aws_cloudwatch_log_group" "codepipeline" {
   ]
 }
 
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  bucket = aws_s3_bucket.model_data_bucket.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "AWSCloudTrailAclCheck20150319"
+        Action    = "s3:GetBucketAcl"
+        Effect    = "Allow"
+        Resource  = aws_s3_bucket.model_data_bucket.arn
+        Principal = { 
+          Service = "cloudtrail.amazonaws.com"
+        }
+      },
+      {
+        Sid       = "AWSCloudTrailWrite20150319"
+        Action    = "s3:PutObject"
+        Effect    = "Allow"
+        Resource  = "${aws_s3_bucket.model_data_bucket.arn}/*"
+        Principal = { 
+          Service = "cloudtrail.amazonaws.com"
+        }
+        Condition = {
+          StringEquals = {
+            "s3:x-amz-acl" = "bucket-owner-full-control"
+          }
+        }
+      }
+    ]
+  })
+  depends_on = [
+    aws_s3_bucket.model_data_bucket
+  ]
+}
+
 resource "aws_cloudtrail" "codepipeline" {
   name                          = "codepipeline"
   s3_bucket_name                = aws_s3_bucket.model_data_bucket.bucket
@@ -234,7 +277,7 @@ resource "aws_cloudtrail" "codepipeline" {
   enable_log_file_validation    = true
   include_global_service_events = true
   is_multi_region_trail         = false
-  cloud_watch_logs_group_arn    = aws_cloudwatch_log_group.codepipeline.arn
+  cloud_watch_logs_group_arn    = "${aws_cloudwatch_log_group.codepipeline.arn}:*"
   cloud_watch_logs_role_arn     = aws_iam_role.pipeline_log_role.arn
 
   event_selector {
@@ -249,7 +292,8 @@ resource "aws_cloudtrail" "codepipeline" {
   }
   depends_on = [
     aws_codepipeline.codepipeline,
-    aws_cloudwatch_log_group.codepipeline
+    aws_cloudwatch_log_group.codepipeline,
+    aws_s3_bucket_policy.bucket_policy
   ]
 }
 
@@ -333,7 +377,6 @@ resource "aws_iam_role_policy" "cloudwatch_event_policy" {
     ]
   })
 }
-
 
 # Lambda function setup
 
