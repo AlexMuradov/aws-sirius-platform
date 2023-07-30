@@ -1,0 +1,341 @@
+{
+    "ImagePullBackOff": [
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that Kubernetes has failed to pull the image",
+            "Failed to pull image 'myimage:latest': rpc error: code = Unknown desc = Error response from daemon: manifest for myimage:latest not found"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that Kubernetes has failed to pull the image",
+            "Failed to pull image 'myimage:latest': rpc error: code = Unknown desc = Error response from daemon: pull access denied for myimage, repository does not exist or may require 'docker login'"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that Kubernetes has failed to pull the image",
+            "Failed to pull image 'myprivateimage:latest': rpc error: code = Unknown desc = Error response from daemon: Get https://registry/v2/: unauthorized: authentication required"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that Kubernetes has failed to pull the image",
+            "Failed to pull image 'invalidhost/myimage:latest': rpc error: code = Unknown desc = Error response from daemon: Get https://invalidhost/v2/: dial tcp: lookup invalidhost on 10.0.0.10:53: no such host"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that Kubernetes has failed to pull the image",
+            "Failed to pull image 'myimage:latest': rpc error: code = Unknown desc = Error response from daemon: Get https://registry/v2/: net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that Kubernetes has failed to pull the image",
+            "Failed to pull image 'myimage:invalidtag': rpc error: code = Unknown desc = Error response from daemon: manifest for myimage:invalidtag not found"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that Kubernetes has failed to pull the image",
+            "Failed to pull image 'myimage:latest': rpc error: code = Unknown desc = Error response from daemon: received unexpected HTTP status: 500 Internal Server Error"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that Kubernetes has failed to pull the image",
+            "Failed to pull image 'myimage:latest': rpc error: code = Unknown desc = Error response from daemon: Get https://registry/v2/myimage/manifests/latest: denied: access forbidden"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that Kubernetes has failed to pull the image",
+            "Failed to pull image 'myimage:latest': rpc error: code = Unknown desc = Error response from daemon: toomanyrequests: Too Many Requests."
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that Kubernetes has failed to pull the image",
+            "Failed to pull image 'myimage:latest': rpc error: code = Unknown desc = Error response from daemon: Get https://registry/v2/: x509: certificate signed by unknown authority"
+        ]
+    ],
+    "ErrImagePull": [
+        "kubectl describe pod <pod_name>", 
+        "Error indicating that the image cannot be fetched from the container registry",
+        "Failed to pull image 'myimage:latest': rpc error: code = Unknown desc = Error response from daemon: pull access denied for myimage, repository does not exist or may require 'docker login'"
+    ],
+    "ErrImageNeverPullPolicy": [
+        "Check the imagePullPolicy in the Pod spec",
+        "Error indicating that the image pull policy is set to 'Never' and the image does not exist locally",
+        "Container image 'myimage:latest' is not present with pull policy of Never"
+    ],
+    "InvalidImageName": [
+        "Check the image name in the Pod spec", 
+        "Error indicating that the image name in the Pod specification is not valid",
+        "Failed to apply default image tag 'myimage:invalidTag': couldn't parse image reference 'myimage:invalidTag': invalid reference format"
+    ],
+    "RegistryUnavailable": [
+        "Check the availability of the Docker registry",
+        "Error indicating that the Docker registry is not available or not reachable",
+        "Failed to pull image 'myimage:latest': rpc error: code = Unknown desc = Error response from daemon: Get https://registry/v2/: dial tcp: lookup registry on 10.0.0.10:53: no such host"
+    ],
+    "ImagePullSecretsError": [
+        "Check the imagePullSecrets in the Pod spec",
+        "Error indicating that the secret needed to pull the image from the private registry is not correct or doesn't exist",
+        "Failed to pull image 'myprivateimage:latest': rpc error: code = Unknown desc = Error response from daemon: Get https://registry/v2/: unauthorized: authentication required"
+    ],
+    "ImageInspectError": [
+        "Check image availability in the image registry",
+        "Error indicating that there was an issue inspecting the image from the registry",
+        "Failed to pull image 'myimage:latest': rpc error: code = Unknown desc = Error response from daemon: readlink /var/lib/docker/overlay2: invalid argument"
+    ],
+    "ErrInvalidImageHost": [
+        "Check the image host address in the Pod spec",
+        "Error indicating that the hostname of the image is not valid or doesn't exist",
+        "Failed to pull image 'invalidhost/myimage:latest': rpc error: code = Unknown desc = Error response from daemon: Get https://invalidhost/v2/: dial tcp: lookup invalidhost on 10.0.0.10:53: no such host"
+    ],
+    "ImageMismatch": [
+        "Check the image specification in the Pod spec",
+        "Error indicating that the image specified does not match the expected one",
+        "Container spec hash does not match the expected, found 'myimage:latest', expected 'myimage:1.0.0'"
+    ],
+    "ImageInsecure": [
+        "Check if the image registry supports secure connections",
+        "Error indicating that the image is being pulled from an insecure registry",
+        "Failed to pull image 'myimage:latest': rpc error: code = Unknown desc = Error response from daemon: Get https://insecureregistry/v2/: http: server gave HTTP response to HTTPS client"
+    ],
+    "NodeNotReady": [
+        "kubectl describe node <node_name>", 
+        "Error indicating that a node is not in Ready status",
+        "Conditions: Type Status LastHeartbeatTime ---- ------ ----------------- Ready False Mon, 01 Jan 2023 00:00:00 +0000"
+    ],
+    "NodeOutOfDisk": [
+        "kubectl describe node <node_name>", 
+        "Error indicating that the node has run out of disk space",
+        "Conditions: Type Status LastHeartbeatTime ---- ------ ----------------- OutOfDisk True Mon, 01 Jan 2023 00:00:00 +0000"
+    ],
+    "NodeMemoryPressure": [
+        "kubectl describe node <node_name>", 
+        "Error indicating that the node is experiencing memory pressure",
+        "Conditions: Type Status LastHeartbeatTime ---- ------ ----------------- MemoryPressure True Mon, 01 Jan 2023 00:00:00 +0000"
+    ],
+    "NodeNotReady": [
+        "kubectl describe node <node_name>", 
+        "Error indicating that a node is not in Ready status",
+        "Conditions: Type Status LastHeartbeatTime ---- ------ ----------------- Ready False Mon, 01 Jan 2023 00:00:00 +0000"
+    ],
+    "NodeOutOfDisk": [
+        "kubectl describe node <node_name>", 
+        "Error indicating that the node has run out of disk space",
+        "Conditions: Type Status LastHeartbeatTime ---- ------ ----------------- OutOfDisk True Mon, 01 Jan 2023 00:00:00 +0000"
+    ],
+    "NodeMemoryPressure": [
+        "kubectl describe node <node_name>", 
+        "Error indicating that the node is experiencing memory pressure",
+        "Conditions: Type Status LastHeartbeatTime ---- ------ ----------------- MemoryPressure True Mon, 01 Jan 2023 00:00:00 +0000"
+    ],
+    "KernelDeadlock": [
+        "kubectl describe node <node_name>", 
+        "Error indicating that the node might be experiencing a kernel deadlock",
+        "Conditions: Type Status LastHeartbeatTime ---- ------ ----------------- KernelDeadlock True Mon, 01 Jan 2023 00:00:00 +0000"
+    ],
+    "ReadonlyFilesystem": [
+        "kubectl describe node <node_name>", 
+        "Error indicating that the node's filesystem has become read-only",
+        "Conditions: Type Status LastHeartbeatTime ---- ------ ----------------- ReadonlyFilesystem True Mon, 01 Jan 2023 00:00:00 +0000"
+    ],
+    "NodeCorruptDockerOverlay2": [
+        "kubectl describe node <node_name>", 
+        "Error indicating that the Docker overlay2 is corrupted",
+        "Conditions: Type Status LastHeartbeatTime ---- ------ ----------------- CorruptDockerOverlay2 True Mon, 01 Jan 2023 00:00:00 +0000"
+    ],
+    "FrequentDockerRestart": [
+        "Check the docker service status on the node",
+        "Error indicating that Docker service is frequently restarting",
+        "docker.service: Start request repeated too quickly."
+    ],
+    "FrequentKubeletRestart": [
+        "Check the kubelet service status on the node",
+        "Error indicating that kubelet service is frequently restarting",
+        "kubelet.service: Start request repeated too quickly."
+    ],
+    "FrequentUnregisterNetDevice": [
+        "Check the node's system log",
+        "Error indicating frequent unregistering of network device",
+        "unregister_netdevice: waiting for eth0 to become free. Usage count = 1"
+    ],
+    "DockerDaemonNotRunning": [
+        "Check the docker service status on the node",
+        "Error indicating that Docker daemon is not running",
+        "docker.service: inactive (dead)"
+    ],
+    "KubeletNotRunning": [
+        "Check the kubelet service status on the node",
+        "Error indicating that Kubelet is not running",
+        "kubelet.service: inactive (dead)"
+    ],
+    "NodeNotSchedulable": [
+        "kubectl get nodes",
+        "Error indicating that the node is not ready to accept pods",
+        "Status: NotReady, Unschedulable"
+    ],
+    "CNIPluginIssue": [
+        "Check the node's CNI configurations",
+        "Error indicating an issue with the Container Network Interface (CNI) plugin",
+        "Failed create pod sandbox: rpc error: code = Unknown desc = [failed to set up sandbox container network for pod..."
+    ],
+    "NodeDiskPressure": [
+        "kubectl describe node <node_name>",
+        "Error indicating that the node is running low on disk space",
+        "Conditions: Type Status LastHeartbeatTime ---- ------ ----------------- DiskPressure True Mon, 01 Jan 2023 00:00:00 +0000"
+    ]
+{
+    "CrashLoopBackOff": [
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Application exited due to an error: Segmentation fault (core dumped)"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Error: Cannot find module 'express'"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Error: Failed to establish a new connection: [Errno -2] Name or service not known"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Fatal error in (some script): out of memory"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "panic: runtime error: index out of range [4] with length 4"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Uncaught TypeError: Cannot read property 'split' of undefined"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "java.lang.OutOfMemoryError: Java heap space"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Error: EACCES: permission denied, open '/var/run/secrets/kubernetes.io/serviceaccount/token'"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Module not found: Error: Can't resolve 'pg' in '/app'"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Error: listen EADDRINUSE: address already in use :::8080"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Application exited due to an error: Segmentation fault (core dumped)"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Error: Cannot find module 'express'"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Error: Failed to establish a new connection: [Errno -2] Name or service not known"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Fatal error in (some script): out of memory"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "panic: runtime error: index out of range [4] with length 4"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Uncaught TypeError: Cannot read property 'split' of undefined"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "java.lang.OutOfMemoryError: Java heap space"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Error: EACCES: permission denied, open '/var/run/secrets/kubernetes.io/serviceaccount/token'"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Module not found: Error: Can't resolve 'pg' in '/app'"
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that a container in the Pod is crashing repeatedly",
+            "Error: listen EADDRINUSE: address already in use :::8080"
+        ]
+    ],
+    "Pending": [
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that the Pod could not be scheduled",
+            "Events: Type Reason Age From Message ---- ------ ---- ---- ------- Warning FailedScheduling 3s (x4 over 15s) default-scheduler 0/3 nodes are available: 3 node(s) had taints that the pod didn't tolerate."
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that the Pod could not be scheduled",
+            "Events: Type Reason Age From Message ---- ------ ---- ---- ------- Warning FailedScheduling 3s (x4 over 15s) default-scheduler 0/3 nodes are available: 3 Insufficient cpu, 3 Insufficient memory."
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that the Pod could not be scheduled",
+            "Events: Type Reason Age From Message ---- ------ ---- ---- ------- Warning FailedScheduling 3s (x4 over 15s) default-scheduler 0/3 nodes are available: 3 node(s) didn't match node selector."
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that the Pod could not be scheduled",
+            "Events: Type Reason Age From Message ---- ------ ---- ---- ------- Warning FailedScheduling 3s (x4 over 15s) default-scheduler 0/3 nodes are available: 3 node(s) didn't match pod affinity/anti-affinity."
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that the Pod could not be scheduled",
+            "Events: Type Reason Age From Message ---- ------ ---- ---- ------- Warning FailedScheduling 3s (x4 over 15s) default-scheduler 0/3 nodes are available: 3 persistentvolumeclaim 'my-pvc' not found."
+        ]
+    ],
+    "FailedScheduling": [
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that the Pod failed to schedule on a node",
+            "Events: Type Reason Age From Message ---- ------ ---- ---- ------- Warning FailedScheduling 3s (x4 over 15s) default-scheduler 0/3 nodes are available: 1 node(s) had taints that the pod didn't tolerate, 2 node(s) didn't match node selector."
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that the Pod failed to schedule on a node",
+            "Events: Type Reason Age From Message ---- ------ ---- ---- ------- Warning FailedScheduling 3s (x4 over 15s) default-scheduler 0/3 nodes are available: 1 Insufficient cpu, 2 Insufficient memory."
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that the Pod failed to schedule on a node",
+            "Events: Type Reason Age From Message ---- ------ ---- ---- ------- Warning FailedScheduling 3s (x4 over 15s) default-scheduler 0/3 nodes are available: 3 node(s) didn't match pod affinity/anti-affinity, 3 node(s) didn't match pod anti-affinity rules."
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that the Pod failed to schedule on a node",
+            "Events: Type Reason Age From Message ---- ------ ---- ---- ------- Warning FailedScheduling 3s (x4 over 15s) default-scheduler 0/3 nodes are available: 3 node(s) didn't match node selector."
+        ],
+        [
+            "kubectl describe pod <pod_name>", 
+            "Error indicating that the Pod failed to schedule on a node",
+            "Events: Type Reason Age From Message ---- ------ ---- ---- ------- Warning FailedScheduling 3s (x4 over 15s) default-scheduler pod has unbound immediate PersistentVolumeClaims."
+        ]
+    ]
+}
