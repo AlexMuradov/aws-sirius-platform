@@ -3,5 +3,6 @@ __pycache__
 helm-charts/*
 terraform.tfstate
 terraform.tfstate.backup
+k8s-operator/pkg/*
 !.github
 !.gitignore

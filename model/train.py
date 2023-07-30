@@ -11,7 +11,7 @@ def load_model(path):
 
 # Define the model and tokenizer
 model_name = "bert-base-uncased"
-model_path = "saved_model"  # Set the path to save the trained model
+model_path = "./tmp"  # Set the path to save the trained model
 
 try:
     # Try loading the model from the provided path
@@ -24,7 +24,7 @@ except:
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-json_file = open('train.json')
+json_file = open('./tmp/train.json')
 json_str = json_file.read()
 json_data = json.loads(json_str)
 

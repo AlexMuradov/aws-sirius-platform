@@ -38,7 +38,7 @@ def predict_labels(model, tokenizer, input_text):
 
 # Define the model and tokenizer
 model_name = "bert-base-uncased"
-model_path = "saved_model"  # Set the path to the saved model checkpoint
+model_path = "./tmp"  # Set the path to the saved model checkpoint
 num_labels = 3  # Set the number of labels, same as during training
 label_names = ["positive", "negative", "neutral"]  # Set the label names used during training
 
@@ -47,7 +47,7 @@ model = load_model(model_path, num_labels, label_names)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 # Example text to predict labels for
-input_text = "This is a amazing sentence."
+input_text = "This is a weather is very good and nice."
 
 # Get the predicted labels in JSON format
 predicted_labels_json = predict_labels(model, tokenizer, input_text)
