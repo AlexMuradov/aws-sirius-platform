@@ -113,7 +113,7 @@ resource "aws_iam_role_policy_attachment" "codebuild_policy_attach" {
 # CodePipeline setup
 
 resource "aws_iam_role" "codepipeline" {
-  name = "codepipeline_role"
+  name = var.codepipeline_role_name
 
   assume_role_policy = jsonencode({
     Statement = [{
@@ -128,7 +128,7 @@ resource "aws_iam_role" "codepipeline" {
 }
 
 resource "aws_iam_policy" "codepipeline_policy" {
-  name        = "codepipeline_policy"
+  name        = var.codepipeline_policy_name
   path        = "/"
   description = "Codepipeline policy"
   policy      = file("${path.module}/codepipeline_policy.json")
@@ -140,7 +140,7 @@ resource "aws_iam_role_policy_attachment" "codepipeline_policy_attach" {
 }
 
 resource "aws_codepipeline" "codepipeline" {
-  name     = "codepipeline"
+  name     = var.codepipeline_name
   role_arn = aws_iam_role.codepipeline.arn
 
   artifact_store {
@@ -189,7 +189,7 @@ resource "aws_codepipeline" "codepipeline" {
 }
 
 resource "aws_iam_role" "pipeline_log_role" {
-  name               = "pipeline_log_role"
+  name = var.pipeline_log_role_name
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -205,7 +205,7 @@ resource "aws_iam_role" "pipeline_log_role" {
 }
 
 resource "aws_iam_role_policy" "pipeline_log_role" {
-  name = "pipeline_log_role_policy"
+  name = var.pipeline_log_role_policy_name
   role = aws_iam_role.pipeline_log_role.id
 
   policy = jsonencode({
@@ -227,7 +227,7 @@ resource "aws_iam_role_policy" "pipeline_log_role" {
 }
 
 resource "aws_cloudwatch_log_group" "codepipeline" {
-  name              = "/aws/codepipeline/sirius"
+  name              = var.cloudwatch_log_group_name
   retention_in_days = 7
   depends_on = [
     aws_iam_role_policy.pipeline_log_role
@@ -418,38 +418,10 @@ resource "aws_iam_role_policy_attachment" "lambda_permissions" {
 
 # API Gateway setup
 
-resource "aws_apigatewayv2_api" "http_api" {
-  name          = "HTTP_API"
-  protocol_type = "HTTP"
-}
-
-resource "aws_apigatewayv2_integration" "lambda_integration" {
-  api_id           = aws_apigatewayv2_api.http_api.id
-  integration_type = "AWS_PROXY"
-  integration_uri  = aws_lambda_function.python_lambda.invoke_arn
-}
-
-resource "aws_apigatewayv2_route" "http_route" {
-  api_id    = aws_apigatewayv2_api.http_api.id
-  route_key = "ANY /"
-  target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
-}
-
-resource "aws_apigatewayv2_stage" "http_stage" {
-  api_id      = aws_apigatewayv2_api.http_api.id
-  name        = "v1"
-  description = "Version 1 of the API"
-  auto_deploy = true
-}
-
-resource "aws_lambda_permission" "api_gateway_permission" {
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.python_lambda.function_name
-  principal     = "apigateway.amazonaws.com"
-
-  source_arn = "${aws_apigatewayv2_api.http_api.execution_arn}/*/*"
-}
-
-output "http_api_url" {
-  value = aws_apigatewayv2_api.http_api.api_endpoint
+module "api_gateway" {
+  source = "./api_gateway_module"
+  
+  api_name            = "HTTP_API"
+  lambda_invoke_arn   = aws_lambda_function.python_lambda.invoke_arn
+  lambda_function_name = aws_lambda_function.python_lambda.function_name
 }
